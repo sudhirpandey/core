@@ -4,7 +4,7 @@ compiler:
   - clang
 before_install: 
   - sudo apt-get install build-essential automake scons libtool libpq-dev libpq5 libldap2-dev libtokyocabinet-dev libpcre3-dev bison flex libpam0g-dev libacl1-dev libxml2-dev fakeroot
-script: ./autogen.sh --with-tokyocabinet --without-postgresql && make && make check
+script: ./autogen.sh --with-tokyocabinet --without-postgresql && make && find tests/acceptance -type f -name *.cf* -exec chmod 600 {} \; && make check
 after_failure: cat tests/acceptance/test.log
 
 
