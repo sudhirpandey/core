@@ -1,8 +1,9 @@
 language: c
 compiler:
-  -gcc
-  -clang
-before_install: build-essential automake scons libtool libpq-dev libpq5 libldap2-dev libtokyocabinet-dev libpcre3-dev bison flex libpam0g-dev libacl1-dev libxml2-dev fakeroot
+  - gcc
+  - clang
+before_install: 
+  - sudo apt-get install build-essential automake scons libtool libpq-dev libpq5 libldap2-dev libtokyocabinet-dev libpcre3-dev bison flex libpam0g-dev libacl1-dev libxml2-dev fakeroot
 script: ./autogen.sh --with-tokyocabinet --without-postgresql && make && make check
 after_failuer: cat test/acceptance/test.log
 
