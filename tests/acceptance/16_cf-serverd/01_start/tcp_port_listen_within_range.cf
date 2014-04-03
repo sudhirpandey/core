@@ -18,7 +18,7 @@ body server control
 bundle agent test
 {
   meta:
-      "test_suppress_fail" string => "windows",
+      "test_skip_needs_work" string => "windows",
         meta => { "redmine4822" };
 
   reports:
