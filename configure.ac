@@ -360,6 +360,7 @@ AC_ARG_WITH([libxml2],
     [AS_HELP_STRING([--with-libxml2[[=PATH]]],
                     [Specify libxml2 path])], [], [with_libxml2=check])
 
+
 if test "x$with_libxml2" != xno; then
 
    if test "x$with_libxml2" != xyes && test "x$with_libxml2" != xcheck; then
@@ -368,12 +369,20 @@ if test "x$with_libxml2" != xno; then
       XML2_CONFIG=xml2-config
    fi
 
-   # xml2-config is only for native builds
-   if test "x$cross_compiling" = "xno"; then
-      if test x`which $XML2_CONFIG` != x ; then
-         CPPFLAGS="$CPPFLAGS `$XML2_CONFIG --cflags`"
-      fi
-   fi
+    # xml2-config is only for native builds
+    if test "x$cross_compiling" = "xno" && test x`which $XML2_CONFIG` != x
+    then
+        xml2_include_dir=`$XML2_CONFIG --cflags`
+        if test -n "$xml2_include_dir"
+        then
+            LIBXML2_CPPFLAGS="$xml2_include_dir"
+        fi
+    else                # xml2-config not found
+        # if a path, e.g. /var/cfengine was given, then we
+        # must take into account that libxml2 includes are in
+        # /var/cfengine/include/libxml2
+        LIBXML2_CPPFLAGS=-I$with_libxml2/include/libxml2
+    fi
 
     CF3_WITH_LIBRARY(libxml2, [
       AC_CHECK_LIB(xml2, xmlFirstElementChild, [], [if test "x$with_libxml2" != xcheck; then AC_MSG_ERROR(Cannot find libxml2); fi])
