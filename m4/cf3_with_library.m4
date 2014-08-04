@@ -32,7 +32,13 @@ AC_DEFUN([CF3_WITH_LIBRARY],
   save_LIBS="$LIBS"
 
   CFLAGS="$CFLAGS $ULN[]_CFLAGS"
+
+  if test "x$1" = "xlibxml2";then
   CPPFLAGS="$CPPFLAGS $ULN[]_CPPFLAGS"
+  else
+  CPPFLAGS="$CPPFLAGS $ULN[]_CFLAGS"
+  fi
+
   LDFLAGS="$LDFLAGS $ULN[]_LDFLAGS"
   LIBS=""
 
